@@ -65,17 +65,18 @@ function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
     [isOk, containerName] = bst_containers('RunContainer', plugName, PlugDesc.ImageReference, volumes, 1);
 
     % 3. Run command in container
-    [isOk, cmdout] = bst_containers('ExecInContainer',containerName, '. /etc/os-release && echo $NAME > /data/wow.txt');
+    [isOk, cmdout] = bst_containers('ExecInContainer', containerName, '. /etc/os-release && echo $NAME > /data/wow.txt');
 
     % 4. Stop container
-    isOk = bst_containers('StopContainer',containerName);
+    isOk = bst_containers('StopContainer', containerName);
 
     % Read file created by container
     tagStr = strtrim(fileread(bst_fullfile(TmpDir, 'wow.txt')));
 
     % Append this text to the file comment
-    sProcess.options.tag = tagStr;
-    OutputFiles = process_timefreq('Run', sProcess, sInput);
+    sProcess.options.tag.Value = tagStr;
+    sProcess.options.output.Value = 'name';
+    OutputFiles = process_add_tag('Run', sProcess, sInput);
 
     % Reload studies
     db_reload_studies(sInput.iStudy);
