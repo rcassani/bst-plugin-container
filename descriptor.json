@@ -1,11 +1,9 @@
 {
-  "Name": "bst-plugin-container",
+  "Name": "bst-plugin-no-container",
   "Version": "latest",
-  "URLzip": "https://github.com/rcassani/bst-plugin-container/archive/refs/heads/main.zip",
+  "URLzip": "https://github.com/rcassani/bst-plugin-container/archive/refs/heads/no-container.zip",
   "URLinfo": "https://github.com/rcassani/bst-plugin-container",
   "TestFile": "process_os_tag.m",
-  "ExtraMenus": [["Show Brainstorm license","bst_license"],
-                 ["Print cat in Matlab", "disp('=^_^=')"]],
-  "CompiledStatus": 0,
-  "ImageReference": "alpine"
+  "ExtraMenus": [["Print confusion", "disp('(o_O)?')"]],
+  "CompiledStatus": 0
 }
