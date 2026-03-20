@@ -1,0 +1,12 @@
+{
+  "Name": "code_plug",
+  "Version": "latest",
+  "URLzip": "https://github.com/rcassani/bst-plugin-container/archive/refs/heads/main.zip",
+  "URLinfo": "https://github.com/rcassani/bst-plugin-container",
+  "ReadmeFile": "README.md",
+  "TestFile": "process_os_tag.m",
+  "ExtraMenus": [["Print confusion", "disp('(o_O)?')"]],
+  "CompiledStatus": 0, 
+  "RequiredPlugs": ["cont_plug"],
+  "DeleteFiles": ["code_plugin.json", "cont_plugin.json"]
+}

@@ -1,0 +1,7 @@
+{
+  "Name": "cont_plug",
+  "Version": "latest",
+  "URLzip": "",
+  "URLinfo": "https://github.com/rcassani/bst-plugin-container",
+  "ImageSource": "alpine"
+}
