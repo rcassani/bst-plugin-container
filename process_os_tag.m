@@ -49,8 +49,8 @@ end
 
 %% ===== RUN =====
 function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
-    % Plugin name
-    plugName = 'bst-plugin-container';
+    % Container plugin name
+    plugName = 'cont_plug';
     % Get plugin description
     PlugDesc = bst_plugin('GetInstalled', plugName);
 
@@ -58,11 +58,11 @@ function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
     % Action 4 should be integrated on the Unload function of the Plugin
 
     % 1. Get tmp dir to bind container
-    TmpDir = bst_get('BrainstormTmpDir', 0, 'duneuro');
+    TmpDir = bst_get('BrainstormTmpDir', 0, plugName);
     volumes = {TmpDir, '/data'};
 
     % 2. Start container as daemon
-    [isOk, containerName] = bst_containers('RunContainer', plugName, PlugDesc.ImageReference, volumes, 1);
+    [isOk, errMsg, containerName] = bst_containers('RunContainer', plugName, PlugDesc.ImageSha, volumes, 1);
 
     % 3. Run command in container
     [isOk, cmdout] = bst_containers('ExecInContainer', containerName, '. /etc/os-release && echo $NAME > /data/wow.txt');
