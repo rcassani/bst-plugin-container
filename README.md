@@ -25,6 +25,7 @@ The file `cont_plugin.json` describes a container plugin named `cont_plug`, the 
 
 3. Add `code_plug` and `cont_plug` as [user-defined plugins](https://neuroimage.usc.edu/brainstorm/Tutorials/Plugins#User-defined_plugins)
 
-4. [TODO] Install
+4. Install both plugins
 
-5. [TODO] Run process
+5. Put an imported data file in process 1 and run process `RC_TESTS > Add hostname to comment`
+   The process will append the string ` | Alpine Linux` to the selected data file
