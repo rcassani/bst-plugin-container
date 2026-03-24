@@ -30,7 +30,7 @@ function sProcess = GetDescription() %#ok<DEFNU>
     % Description the process
     sProcess.Comment     = 'Add hostname to comment';
     sProcess.Category    = 'File';
-    sProcess.SubGroup    = 'Test';
+    sProcess.SubGroup    = 'RC_TESTS';
     sProcess.Index       = 100;
     sProcess.Description = '';
     % Definition of the input accepted by this process
@@ -51,27 +51,30 @@ end
 function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
     % Container plugin name
     plugName = 'cont_plug';
-    % Get plugin description
-    PlugDesc = bst_plugin('GetInstalled', plugName);
 
-    % Actions 1 and 2 should be integrated on the Load function of the Plugin
-    % Action 4 should be integrated on the Unload function of the Plugin
+    % Ensure container plugin: Installs and/or Loads
+    % Install container plugin === Import image into container engine
+    % Load    container plugin === Run container (same name as container plugin)
+    [ensureRes  errMsg] = bst_plugin('Ensure', plugName);
+    % Retrieve info of container
+    [containerName, isRunning, volumePairs, imageSha] = bst_containers('GetContainerInfo', plugName);
 
-    % 1. Get tmp dir to bind container
-    TmpDir = bst_get('BrainstormTmpDir', 0, plugName);
-    volumes = {TmpDir, '/data'};
+    % Run command in container
+    if isRunning
+        command = ['. /etc/os-release && echo $NAME > ' bst_fullfile(volumePairs{1,2}, 'wow.txt')];
+        [isOk, cmdout] = bst_containers('ExecInContainer', containerName, command);
+    end
 
-    % 2. Start container as daemon
-    [isOk, errMsg, containerName] = bst_containers('RunContainer', plugName, PlugDesc.ImageSha, volumes, 1);
-
-    % 3. Run command in container
-    [isOk, cmdout] = bst_containers('ExecInContainer', containerName, '. /etc/os-release && echo $NAME > /data/wow.txt');
-
-    % 4. Stop container
-    isOk = bst_containers('StopContainer', containerName);
+    % Unload container plugin === Stop container
+    if ensureRes > 0
+        bst_plugin('Unload', plugName);
+    end
 
     % Read file created by container
-    tagStr = strtrim(fileread(bst_fullfile(TmpDir, 'wow.txt')));
+    tagStr = strtrim(fileread(bst_fullfile(volumePairs{1,1}, 'wow.txt')));
+
+    % Delete temporary files
+    file_delete(volumePairs{1,1}, 1, 1);
 
     % Append this text to the file comment
     sProcess.options.tag.Value = tagStr;
@@ -81,6 +84,4 @@ function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
     % Reload studies
     db_reload_studies(sInput.iStudy);
 end
-
-
 
