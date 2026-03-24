@@ -65,13 +65,13 @@ function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
         [isOk, cmdout] = bst_containers('ExecInContainer', containerName, command);
     end
 
-    % Unload container plugin === Stop container
+    % Read file created by container
+    tagStr = strtrim(fileread(bst_fullfile(volumePairs{1,1}, 'wow.txt')));
+    
+    % Unload container plugin === Stop container and Delete bind files
     if ensureRes > 0
         bst_plugin('Unload', plugName);
     end
-
-    % Read file created by container
-    tagStr = strtrim(fileread(bst_fullfile(volumePairs{1,1}, 'wow.txt')));
 
     % Append this text to the file comment
     sProcess.options.tag.Value = tagStr;
