@@ -73,9 +73,6 @@ function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
     % Read file created by container
     tagStr = strtrim(fileread(bst_fullfile(volumePairs{1,1}, 'wow.txt')));
 
-    % Delete temporary files
-    file_delete(volumePairs{1,1}, 1, 1);
-
     % Append this text to the file comment
     sProcess.options.tag.Value = tagStr;
     sProcess.options.output.Value = 'name';
