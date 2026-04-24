@@ -49,24 +49,29 @@ end
 
 %% ===== RUN =====
 function OutputFiles = Run(sProcess, sInput) %#ok<DEFNU>
+    OutputFiles = {};
+
     % Container plugin name
     plugName = 'cont_plug';
 
     % Ensure container plugin: Installs and/or Loads
     % Install container plugin === Import image into container engine
     % Load    container plugin === Run container (same name as container plugin)
-    [ensureRes  errMsg] = bst_plugin('Ensure', plugName);
+    [ensureRes,  errMsg] = bst_plugin('Ensure', plugName);
     % Retrieve info of container
-    [containerName, isRunning, volumePairs, imageSha] = bst_containers('GetContainerInfo', plugName);
+    [errMsg, containerInfo] = bst_containers('GetContainerInfo', ['bst_' plugName]);
 
     % Run command in container
-    if isRunning
-        command = ['. /etc/os-release && echo $NAME > ' bst_fullfile(volumePairs{1,2}, 'wow.txt')];
-        [isOk, cmdout] = bst_containers('ExecInContainer', containerName, command);
+    if isempty(errMsg) && containerInfo.isRunning
+        command = ['. /etc/os-release && echo $NAME > ' bst_fullfile(containerInfo.volumes{1,2}, 'wow.txt')];
+        errMsg = bst_containers('ExecInContainer', containerInfo.name, command);
+    end
+    if ~isempty(errMsg)
+        return
     end
 
     % Read file created by container
-    tagStr = strtrim(fileread(bst_fullfile(volumePairs{1,1}, 'wow.txt')));
+    tagStr = strtrim(fileread(bst_fullfile(containerInfo.volumes{1,1}, 'wow.txt')));
     
     % Unload container plugin === Stop container and Delete bind files
     if ensureRes > 0
