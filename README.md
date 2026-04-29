@@ -19,13 +19,11 @@ The file `cont_plugin.json` describes a container plugin named `cont_plug`, the 
 
 ## Usage
 
-1. You must use the Brainstorm branch `support-containers` in [`rcassani/branstorm3/`](https://github.com/rcassani/brainstorm3)
+1. Start Brainstorm
 
-2. Start Brainstorm
+2. Add `code_plug` and `cont_plug` as [user-defined plugins](https://neuroimage.usc.edu/brainstorm/Tutorials/Plugins#User-defined_plugins)
 
-3. Add `code_plug` and `cont_plug` as [user-defined plugins](https://neuroimage.usc.edu/brainstorm/Tutorials/Plugins#User-defined_plugins)
+3. Install both plugins
 
-4. Install both plugins
-
-5. Put an imported data file in process 1 and run process `RC_TESTS > Add hostname to comment`
+4. Put an imported data file in process 1 and run process `RC_TESTS > Add hostname to comment`
    The process will append the string ` | Alpine Linux` to the selected data file
