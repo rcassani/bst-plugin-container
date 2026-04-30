@@ -6,7 +6,7 @@
   "ReadmeFile": "README.md",
   "TestFile": "process_os_tag.m",
   "ExtraMenus": [["Print confusion", "disp('(o_O)?')"]],
-  "CompiledStatus": 0, 
+  "CompiledStatus": 1, 
   "RequiredPlugs": ["cont_plug"],
   "DeleteFiles": ["code_plugin.json", "cont_plugin.json"]
 }
