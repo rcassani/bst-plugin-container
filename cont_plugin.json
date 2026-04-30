@@ -3,5 +3,5 @@
   "Version": "latest",
   "URLzip": "",
   "URLinfo": "https://github.com/rcassani/bst-plugin-container",
-  "ImageSource": "alpine"
+  "ImageSource": "docker.io/library/alpine:latest"
 }
